@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description"
+content="Rahul Lakkawar — Full Stack Developer and Cloud Engineer specialising in .NET, AWS serverless architecture, and enterprise system modernisation.">
+<title>Rahul Lakkawar — Developer Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080c10;
+    --bg2: #0d1117;
+    --surface: #111820;
+    --border: #1e2d3d;
+    --accent: #00d4ff;
+    --accent2: #0088cc;
+    --gold: #f0a500;
+    --text: #e8edf2;
+    --muted: #6b8094;
+    --dim: #3a5168;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed; top: 0; left: 0; z-index: 9999;
+    pointer-events: none; mix-blend-mode: difference;
+  }
+  .cursor-dot {
+    width: 8px; height: 8px; background: var(--accent);
+    border-radius: 50%; position: absolute;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%; position: absolute;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, transform 0.15s;
+    opacity: 0.5;
+  }
+  body:hover .cursor-ring { opacity: 1; }
+
+  /* Progress bar */
+  #progress {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    z-index: 1000; width: 0%; transition: width 0.1s;
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    padding: 20px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: background 0.4s, backdrop-filter 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(8,12,16,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 18px; font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--muted); text-decoration: none;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.25;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+  }
+  .hero-glow {
+    position: absolute; top: -200px; left: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute; bottom: -100px; right: 10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(240,165,0,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; max-width: 900px; }
+  .hero-tag {
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--accent); letter-spacing: 0.15em;
+    text-transform: uppercase; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-tag::before {
+    content: ''; display: block; width: 32px; height: 1px; background: var(--accent);
+  }
+  .hero-name {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 800; line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-name span { color: var(--accent); }
+  .hero-roles {
+    font-family: var(--font-display); font-size: clamp(18px, 2.5vw, 28px);
+    font-weight: 400; color: var(--muted);
+    margin-bottom: 40px;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-summary {
+    font-family: var(--font-display); font-size: clamp(14px, 2.5vw, 20px);
+    max-width:600px;
+    font-weight: 300; color: var(--muted);
+    margin-bottom: 40px;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+  
+  .hero-roles strong { color: var(--text); font-weight: 600; }
+  .hero-stats {
+    display: flex; gap: 48px; margin-bottom: 48px;
+    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: var(--font-display); font-size: 36px; font-weight: 800;
+    color: var(--accent); line-height: 1;
+  }
+  .stat-label {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--muted); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-top: 4px;
+  }
+  .hero-cta {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s 1s forwards;
+  }
+  .btn-primary {
+    padding: 14px 32px;
+    background: var(--accent); color: var(--bg);
+    font-family: var(--font-mono); font-size: 13px;
+    font-weight: 500; letter-spacing: 0.05em;
+    border: none; cursor: none; text-decoration: none;
+    display: inline-block;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,212,255,0.35);
+  }
+  .btn-ghost {
+    padding: 14px 32px;
+    background: transparent; color: var(--text);
+    font-family: var(--font-mono); font-size: 13px;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--dim); cursor: none; text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .scroll-hint {
+    position: absolute; bottom: 40px; left: 48px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--dim); letter-spacing: 0.1em;
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0; animation: fadeUp 0.8s 1.4s forwards;
+  }
+  .scroll-line {
+    width: 1px; height: 40px; background: var(--dim);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ── SECTION COMMON ── */
+  section {
+    padding: 120px 48px;
+    position: relative;
+  }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--accent); letter-spacing: 0.2em;
+    text-transform: uppercase; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; max-width: 60px;
+    height: 1px; background: var(--accent); opacity: 0.4;
+  }
+  .section-title {
+    font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800; letter-spacing: -0.02em;
+    line-height: 1.1; margin-bottom: 64px;
+  }
+
+  /* ── STORY / TIMELINE ── */
+  #story { background: var(--bg2); }
+
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: ''; position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 1px; background: var(--border);
+  }
+  .timeline-item {
+    position: relative; margin-bottom: 72px;
+    opacity: 0; transform: translateX(-20px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+  .timeline-dot {
+    position: absolute; left: -46px; top: 6px;
+    width: 12px; height: 12px;
+    background: var(--bg2); border: 2px solid var(--dim);
+    border-radius: 50%;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .timeline-item.visible .timeline-dot {
+    border-color: var(--accent);
+    box-shadow: 0 0 16px rgba(0,212,255,0.4);
+  }
+  .timeline-year {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--accent); letter-spacing: 0.15em;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .timeline-heading {
+    font-family: var(--font-display); font-size: 22px; font-weight: 700;
+    margin-bottom: 8px; color: var(--text);
+  }
+  .timeline-sub {
+    font-size: 14px; color: var(--muted); margin-bottom: 12px;
+  }
+  .timeline-body { font-size: 15px; color: var(--dim); max-width: 680px; line-height: 1.7; }
+  .timeline-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .tag {
+    font-family: var(--font-mono); font-size: 11px;
+    padding: 4px 12px; border: 1px solid var(--border);
+    color: var(--muted); letter-spacing: 0.06em;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg); }
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px; background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .skill-card {
+    background: var(--surface); padding: 32px;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s, background 0.2s;
+  }
+  .skill-card.visible { opacity: 1; transform: translateY(0); }
+  .skill-card:hover { background: #141d26; }
+  .skill-icon {
+    font-size: 28px; margin-bottom: 16px;
+    display: block;
+  }
+  .skill-title {
+    font-family: var(--font-display); font-size: 16px; font-weight: 700;
+    margin-bottom: 12px; color: var(--text);
+  }
+  .skill-list {
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--muted); line-height: 2;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── ACHIEVEMENTS ── */
+  #achievements { background: var(--bg2); }
+  .achievements-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .achievement-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 36px; position: relative; overflow: hidden;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s, transform 0.6s, border-color 0.2s;
+  }
+  .achievement-card.visible { opacity: 1; transform: translateY(0); }
+  .achievement-card:hover { border-color: var(--accent2); }
+  .achievement-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .achievement-card:hover::before { transform: scaleX(1); }
+  .ach-num {
+    font-family: var(--font-display); font-size: 56px; font-weight: 800;
+    color: var(--border); line-height: 1; margin-bottom: 8px;
+    transition: color 0.3s;
+  }
+  .achievement-card:hover .ach-num { color: var(--accent); }
+  .ach-title {
+    font-family: var(--font-display); font-size: 18px; font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .ach-body { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--bg); }
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .project-card {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 40px; position: relative;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s, transform 0.6s, border-color 0.3s;
+  }
+  .project-card.visible { opacity: 1; transform: translateY(0); }
+  .project-card:hover { border-color: var(--dim); }
+  .project-label {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--gold); letter-spacing: 0.15em;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .project-name {
+    font-family: var(--font-display); font-size: 26px; font-weight: 800;
+    margin-bottom: 16px; color: var(--text);
+  }
+  .project-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+  .stack-tag {
+    font-family: var(--font-mono); font-size: 11px;
+    padding: 4px 10px; background: var(--bg);
+    border: 1px solid var(--border); color: var(--dim);
+  }
+
+  /* ── architecture ── */
+  #architecture { background: var(--bg); }
+  .architecture-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .architecture-card {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 40px; position: relative;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s, transform 0.6s, border-color 0.3s;
+  }
+  .architecture-card.visible { opacity: 1; transform: translateY(0); }
+  .architecture-card:hover { border-color: var(--dim); }
+  .architecture-label {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--gold); letter-spacing: 0.15em;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .architecture-name {
+    font-family: var(--font-display); font-size: 26px; font-weight: 800;
+    margin-bottom: 16px; color: var(--text);
+  }
+  .architecture-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+  .architecture-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+  .stack-tag {
+    font-family: var(--font-mono); font-size: 11px;
+    padding: 4px 10px; background: var(--bg);
+    border: 1px solid var(--border); color: var(--dim);
+  }
+
+
+  .architecture-flow{
+  margin-top:80px;
+  text-align:center;
+  
+    padding: 40px; position: relative;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s, transform 0.6s, border-color 0.3s;
+  }
+  .architecture-flow.visible { opacity: 1; transform: translateY(0); }
+  .architecture-flow:hover { border-color: var(--dim); }  
+
+  .flow-title{
+  font-family: var(--font-display); font-size: 26px; font-weight: 800;
+  margin-bottom: 16px; color: var(--text);
+  }
+
+  .flow-diagram{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  position:relative;
+  }
+ 
+
+  .flow-node{
+  padding:12px 22px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  font-family:var(--font-mono);
+  font-size:12px;
+  position:relative;
+  transition:all .25s;
+  }
+
+  .flow-node.active{
+  border-color:var(--accent);
+  box-shadow:0 0 14px rgba(0,212,255,.35);
+  }
+
+  .flow-line{
+  width:40px;
+  height:2px;
+  background:var(--border);
+  }
+
+  .flow-dot{
+  width:10px;
+  height:10px;
+  background:var(--accent);
+  border-radius:50%;
+  position:absolute;
+  top:50%;
+  left:0;
+  transform:translate(-50%,-50%);
+  opacity:0;
+  box-shadow:0 0 12px var(--accent);
+  }
+
+  .run-flow-btn{
+  margin-top:30px;
+  padding:12px 26px;
+  background:var(--accent);
+  border:none;
+  color:var(--bg);
+  font-family:var(--font-mono);
+  cursor:pointer;
+  transition:all .2s;
+  }
+
+  .run-flow-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,212,255,.35);
+  }
+
+  .flow-node{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  padding:14px 18px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  font-family:var(--font-mono);
+  font-size:11px;
+  min-width:110px;
+  transition:all .25s;
+  }
+
+  .flow-node img{
+  width:28px;
+  height:28px;
+  }
+
+  .flow-node span{
+  font-size:11px;
+  color:var(--muted);
+  }
+
+  .flow-node.active{
+  border-color:var(--accent);
+  box-shadow:0 0 16px rgba(0,212,255,.4);
+  transform:translateY(-2px);
+  }
+
+  .flow-dot{
+  width:12px;
+  height:12px;
+  background:var(--accent);
+  border-radius:50%;
+  position:absolute;
+  top:50%;
+  left:0;
+  transform:translate(-50%,-50%);
+  opacity:0;
+  box-shadow:0 0 18px var(--accent),0 0 30px rgba(0,212,255,.5);
+  transition:all .2s;
+  }
+  
+  .run-flow-btn:disabled{
+  opacity:0.6;
+  cursor:not-allowed;
+  }
+  
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--bg2);
+    text-align: center;
+    padding: 160px 48px;
+  }
+  .contact-title {
+    font-family: var(--font-display); font-size: clamp(36px, 5vw, 72px);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .contact-title span { color: var(--accent); }
+  .contact-sub { color: var(--muted); font-size: 18px; margin-bottom: 48px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 80px; }
+  .contact-link {
+    display: flex; align-items: center; gap: 10px;
+    padding: 16px 28px; border: 1px solid var(--border);
+    color: var(--text); text-decoration: none;
+    font-family: var(--font-mono); font-size: 13px;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Footer */
+  footer {
+    background: var(--bg);
+    padding: 24px 48px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer span { font-family: var(--font-mono); font-size: 11px; color: var(--dim); letter-spacing: 0.08em; }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  .blink { animation: blink 1s step-end infinite; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section, #hero, #contact { padding-left: 24px; padding-right: 24px; }
+    .hero-stats { gap: 24px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .architecture-grid { grid-template-columns: 1fr; }
+    .scroll-hint { display: none; }
+  }
+
+  @media (max-width:768px){
+
+    section{
+      padding:80px 24px;
+    }
+
+    #contact{
+      padding:100px 24px;
+    }
+
+    .hero-stats{
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .projects-grid{
+      grid-template-columns:1fr;
+    }
+    .architecture-grid{
+      grid-template-columns:1fr;
+    }
+
+  }
+
+  .menu-toggle{
+    display:none;
+    font-size:22px;
+    color:var(--text);
+    cursor:pointer;
+  }
+
+  @media (max-width:768px){
+
+    .menu-toggle{
+      display:block;
+    }
+
+    .nav-links{
+      position:absolute;
+      top:70px;
+      right:0;
+      background:var(--bg2);
+      flex-direction:column;
+      width:220px;
+      padding:24px;
+      border:1px solid var(--border);
+      display:none;
+    }
+
+    .nav-links.active{
+      display:flex;
+    }
+
+  }
+
+  @media (max-width:768px){
+
+    body{
+      cursor:auto;
+    }
+
+    .cursor{
+      display:none;
+    }
+
+  }
+
+  @media (max-width:768px){
+
+  .flow-diagram{
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  position:relative;
+  }
+
+  .flow-line{
+  width:2px;
+  height:26px;
+  }
+
+  .flow-node{
+  min-width:160px;
+  }
+
+  }
+
+  @media (max-width:768px){
+
+  .hero-name{
+  font-size:44px;
+  }
+
+  .hero-roles{
+  font-size:18px;
+  }
+
+  .hero-summary{
+  font-size:14px;
+  line-height:1.6;
+  }
+
+  .hero-cta{
+  flex-direction:column;
+  align-items:flex-start;
+  }
+
+  }
+
+
+  @media (max-width:768px){
+
+  .timeline{
+  padding-left:26px;
+  }
+
+  .timeline-dot{
+  left:-30px;
+  }
+
+  }
+
+  @media (max-width:768px){
+  .project-card,
+  .architecture-card,
+  .skill-card,
+  .achievement-card{
+  padding:24px;
+  }
+
+  }
+
+  @media (max-width:768px){
+  .contact-links{
+  flex-direction:column;
+  align-items:center;
+  }
+
+  .contact-link{
+  width:100%;
+  max-width:320px;
+  justify-content:center;
+  }
+
+  }
+
+  @media (max-width:768px){
+  footer{
+  flex-direction:column;
+  gap:10px;
+  text-align:center;
+  }
+
+  }
+
+  @media (max-width:768px){
+
+  .btn-primary,
+  .btn-ghost{
+  width:100%;
+  text-align:center;
+  }
+  }
+
+  html{
+  scroll-padding-top:80px;
+  }
+
+  @media (max-width:768px){
+
+  .projects-grid{
+  grid-template-columns:1fr;
+  gap:20px;
+  }
+
+  .project-card{
+  padding:24px;
+  }
+
+  .project-name{
+  font-size:22px;
+  }
+
+  .project-desc{
+  font-size:14px;
+  line-height:1.6;
+  }
+
+  .project-stack{
+  gap:6px;
+  }
+
+  .stack-tag{
+  font-size:10px;
+  padding:4px 8px;
+  }
+
+  }
+
+  @media (max-width:768px){
+  .project-card{
+  grid-column:auto !important;
+  }
+
+  }
+
+  .project-stack{
+  margin-top:8px;
+  }
+
+  .stack-tag{
+  white-space:nowrap;
+  }
+
+  .project-label{
+  margin-bottom:10px;
+  }
+
+  .project-name{
+  margin-bottom:12px;
+  }
+
+  .project-desc{
+  margin-bottom:16px;
+  }
+
+  .project-card{
+  transition:all .3s ease;
+  }
+
+  .project-card:hover{
+  transform:translateY(-4px);
+  }
+
+  @media (max-width:768px){
+  .projects-grid{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+  }
+
+  .project-card{
+  width:100%;
+  max-width:520px;
+  padding:22px;
+  }
+
+  }
+
+  @media (max-width:768px){
+  .project-desc{
+  font-size:14px;
+  line-height:1.65;
+  max-width:100%;
+  }
+  .project-name{
+  font-size:20px;
+  line-height:1.3;
+  }
+  }
+
+  .project-stack{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  }
+
+  .stack-tag{
+  font-size:10px;
+  padding:4px 8px;
+  white-space:nowrap;
+  }
+
+  @media (max-width:768px){
+
+  .project-label{
+  font-size:10px;
+  margin-bottom:8px;
+  }
+
+  .project-name{
+  margin-bottom:10px;
+  }
+
+  .project-desc{
+  margin-bottom:14px;
+  }
+
+  }
+
+  @media (max-width:768px){
+
+  .project-card{
+  grid-column:auto !important;
+  }
+
+  }
+
+  @media (max-width:768px){
+  #hero{
+  padding-top:120px;
+  }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor">
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+</div>
+
+<!-- Progress Bar -->
+<div id="progress"></div>
+
+<!-- Nav -->
+<nav id="navbar">
+  <div class="nav-logo">RL<span style="color:var(--muted)">.</span></div>
+
+  <div class="menu-toggle" id="menuToggle">☰</div>
+    <ul class="nav-links">
+      <li><a href="#story">Journey</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#achievements">Wins</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Available for opportunities</div>
+    <h1 class="hero-name">Rahul<br/><span>Lakkawar</span></h1>
+    <div class="hero-roles">
+      <strong>Full Stack Developer</strong> · <strong>Backend Engineer</strong> · <strong>Cloud Architect</strong><br/>
+      Building systems that work at <strong>global scale</strong>
+    </div>
+    <div class="hero-summary">
+    Backend engineer specialising in .NET and AWS serverless architecture.
+    Experience migrating enterprise systems and modernising legacy platforms.
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num" id="yearsCount">0</div>
+        <div class="stat-label">Years Exp.</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" id="appsCount">0</div>
+        <div class="stat-label">Apps Shipped</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2</div>
+        <div class="stat-label">AWS Migration Led</div>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <a href="#story" class="btn-primary">See My Journey →</a>
+      <a href="#contact" class="btn-ghost">Get In Touch</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    SCROLL TO EXPLORE
+  </div>
+</section>
+
+<!-- ── STORY ── -->
+<section id="story">
+  <div class="section-inner">
+    <div class="section-label">Career Timeline</div>
+    <h2 class="section-title">The Journey<br/>So Far</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2018 – 2021</div>
+        <div class="timeline-heading">B.Sc. Science — Building the Foundation</div>
+        <div class="timeline-sub">Rashtrasant Tukadoji Maharaj Nagpur University</div>
+        <div class="timeline-body">Developed a strong analytical and logical foundation during undergraduate studies. Built a curiosity for how software systems work — a curiosity that soon became a career.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">May 2022</div>
+        <div class="timeline-heading">Joined Seligent Consulting — Junior Developer</div>
+        <div class="timeline-sub">Seligent Consulting Pvt. Ltd., Pune</div>
+        <div class="timeline-body">Started as a Junior Full Stack Developer working on the FLCAD project for KONE — a global elevator design and workflow platform. Quickly picked up C# .NET, form applications, Windows services, and production deployments in a lean, fast-moving team.</div>
+        <div class="timeline-tags">
+          <span class="tag">C# .NET</span><span class="tag">VB.NET</span><span class="tag">SQL Server</span><span class="tag">WinForms</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2022 – 2023</div>
+        <div class="timeline-heading">Legacy Modernisation & Service Migration</div>
+        <div class="timeline-sub">ProcessAutoCAD: VB6 → C# · Email: SMTP → Graph API</div>
+        <div class="timeline-body">Led migration of the legacy ProcessAutoCAD service from Visual Basic 6 to modern C#. This service automates generation of elevator layout drawings via AutoCAD integration. Simultaneously migrated email infrastructure from SMTP to Microsoft Graph API, improving reliability and chain management across global workflows.</div>
+        <div class="timeline-tags">
+          <span class="tag">VB6 → C#</span><span class="tag">AutoCAD Integration</span><span class="tag">MS Graph API</span><span class="tag">Legacy Modernisation</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2023</div>
+        <div class="timeline-heading">Technical Lead — North America Client Transition</div>
+        <div class="timeline-sub">ENA Architecture → FLCAD Global Architecture</div>
+        <div class="timeline-body">Took ownership of leading North American KONE clients through a full architectural transition. Served as the primary technical point of contact — managing MIM (Major Incident Management) calls, coordinating deployments, and ensuring zero disruption throughout the cutover.</div>
+        <div class="timeline-tags">
+          <span class="tag">MIM Management</span><span class="tag">Client Transition</span><span class="tag">Architecture</span><span class="tag">Scrum Lead</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2024 – Present</div>
+        <div class="timeline-heading">AWS Cloud Migration — Architect & Builder</div>
+        <div class="timeline-sub">T-Systems On-Premise → AWS Serverless</div>
+        <div class="timeline-body">Part of the core team migrating the entire FLCAD & AutoBIM platform to AWS. Beyond writing code — participated in architecture discussions, finalised cloud component designs, built and optimised Lambda functions, designed Step Function state machines, and worked across SQS, X-Ray, CloudWatch, and more.</div>
+        <div class="timeline-tags">
+          <span class="tag">AWS Lambda</span><span class="tag">API Gateway</span><span class="tag">Step Functions</span><span class="tag">SQS</span><span class="tag">X-Ray</span><span class="tag">CloudWatch</span><span class="tag">Serverless</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">Jun 2024 – Present</div>
+        <div class="timeline-heading">MCA — Formalising the Craft</div>
+        <div class="timeline-sub">Bharati Vidyapeeth, Pune · Pursuing</div>
+        <div class="timeline-body">Pursuing a Master of Computer Applications alongside full-time work — deepening foundations in computer science, algorithms, and system design while applying those concepts daily on the job.</div>
+        <div class="timeline-tags">
+          <span class="tag">MCA</span><span class="tag">Algorithms</span><span class="tag">System Design</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label">Technical Arsenal</div>
+    <h2 class="section-title">What I<br/>Work With</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-icon">⚡</span>
+        <div class="skill-title">Backend & .NET</div>
+        <div class="skill-list">C# · VB.NET · ASP.NET Core<br/>Web API · WinForms · Services<br/>Visual Basic 6 · T-SQL</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">☁️</span>
+        <div class="skill-title">Cloud / AWS</div>
+        <div class="skill-list">Lambda · Step Functions<br/>SQS · X-Ray · CloudWatch<br/>IAM · S3 · EC2</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🗄️</span>
+        <div class="skill-title">Data & Integration</div>
+        <div class="skill-list">SQL Server · XML Processing<br/>DB-level Validation<br/>Graph API · SMTP</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🏗️</span>
+        <div class="skill-title">Architecture</div>
+        <div class="skill-list">Serverless Design<br/>Event-driven Systems<br/>Legacy Modernisation<br/>Microservices</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🔧</span>
+        <div class="skill-title">DevOps & Tooling</div>
+        <div class="skill-list">Git · Visual Studio · IIS<br/>Production Deployment<br/>AutoCAD Integration</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🧠</span>
+        <div class="skill-title">Leadership</div>
+        <div class="skill-list">Scrum Facilitation<br/>MIM Management<br/>Client Onboarding<br/>Technical Presentations</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ACHIEVEMENTS ── -->
+<section id="achievements">
+  <div class="section-inner">
+    <div class="section-label">Impact</div>
+    <h2 class="section-title">Key<br/>Achievements</h2>
+    <div class="achievements-grid">
+      <div class="achievement-card">
+        <div class="ach-num">01</div>
+        <div class="ach-title">Cloud Architecture from Scratch</div>
+        <div class="ach-body">Drove the end-to-end architectural design and migration of the FLCAD platform from T-Systems on-premise to a serverless AWS infrastructure — handling component design, Lambda creation, and state machine orchestration.</div>
+      </div>
+      <div class="achievement-card">
+        <div class="ach-num">02</div>
+        <div class="ach-title">Zero-Disruption Client Transition</div>
+        <div class="ach-body">Led North American KONE clients through a full transition from ENA to FLCAD Global architecture with no service disruption — acting as sole technical lead across planning, migration, and go-live.</div>
+      </div>
+      <div class="achievement-card">
+        <div class="ach-num">03</div>
+        <div class="ach-title">Legacy System Modernisation</div>
+        <div class="ach-body">Migrated ProcessAutoCAD from Visual Basic 6 to C# and upgraded email infrastructure from SMTP to Microsoft Graph API — eliminating two major sources of technical debt in a business-critical workflow.</div>
+      </div>
+      <div class="achievement-card">
+        <div class="ach-num">04</div>
+        <div class="ach-title">End-to-End Engineering Ownership</div>
+        <div class="ach-body">In a lean team, operated across the full engineering lifecycle — architecture, feature development, database management, incident management, production deployment, and client communication simultaneously.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">Built This</div>
+    <h2 class="section-title">Flagship<br/>Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-label">KONE Global · Core Service</div>
+        <div class="project-name">ProcessAutoCAD</div>
+        <div class="project-desc">A service that automates generation of elevator layout drawings using AutoCAD. Migrated from Visual Basic 6 to C#, this system is a critical part of the global FLCAD workflow — used by KONE teams worldwide to reduce design time and human error.</div>
+        <div class="project-stack">
+          <span class="stack-tag">C#</span><span class="stack-tag">AutoCAD API</span><span class="stack-tag">Windows Service</span><span class="stack-tag">SQL Server</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-label">KONE Global · Validation Layer</div>
+        <div class="project-name">MailSave</div>
+        <div class="project-desc">A DB-level validation system for XML case requests. Processes incoming elevator design case requests, validates them against business rules at the database level, and routes them into the global workflow pipeline.</div>
+        <div class="project-stack">
+          <span class="stack-tag">C#</span><span class="stack-tag">XML Processing</span><span class="stack-tag">SQL Server</span><span class="stack-tag">MS Graph API</span>
+        </div>
+      </div>
+      <div class="project-card" style="grid-column: 1 / -1;">
+        <div class="project-label">KONE Global · Cloud Migration</div>
+        <div class="project-name">FLCAD → AWS Serverless Platform</div>
+        <div class="project-desc">Architecture and implementation of the migration of the entire FLCAD ecosystem from T-Systems on-premise to AWS. Designed the serverless workflow orchestration layer using Step Functions, built Lambda functions for each workflow stage, implemented SQS for decoupled messaging, and set up X-Ray for distributed tracing across the pipeline. Participated in all architectural decisions from initial design to production deployment.</div>
+        <div class="project-stack">
+          <span class="stack-tag">AWS Lambda</span><span class="stack-tag">Step Functions</span><span class="stack-tag">SQS</span><span class="stack-tag">X-Ray</span><span class="stack-tag">CloudWatch</span><span class="stack-tag">IAM</span><span class="stack-tag">S3</span>
+        </div>
+      </div>
+      <div class="project-card" style="grid-column: 1 / -1;">
+        <div class="project-label">KONE Global · Cloud Migration</div>
+        <div class="project-name">AutoBIM → AWS Serverless Platform</div>
+        <div class="project-desc">Architecture and implementation of the migration of the entire AutoBIM ecosystem from Azure Cloud to AWS. Designed the serverless workflow orchestration layer using Step Functions, built Lambda functions for each workflow stage, implemented SQS for decoupled messaging, and set up X-Ray for distributed tracing across the pipeline. Participated in all architectural decisions from initial design to production deployment.</div>
+        <div class="project-stack">
+          <span class="stack-tag">AWS Lambda</span><span class="stack-tag">API Gateway</span><span class="stack-tag">Step Functions</span><span class="stack-tag">SQS</span><span class="stack-tag">X-Ray</span><span class="stack-tag">CloudWatch</span><span class="stack-tag">IAM</span><span class="stack-tag">S3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+<!-- ── architecture ── -->
+<section id="architecture">
+  <div class="section-inner">
+    <div class="section-label">System Design</div>
+    <h2 class="section-title">Architecture<br/>Thinking</h2>
+
+    <div class="architecture-grid">
+      <div class="architecture-card" style="grid-column: 1 / -1;">
+        <div class="architecture-name">Legacy AutoCAD Automation Pipeline</div>
+        <div class="architecture-desc">Migrated a legacy VB6 automation service into modern C# architecture. This service automatically generates AutoCAD drawings for elevator layouts based on incoming design data.</div>
+        <div class="architecture-stack">
+          <span class="stack-tag">C#</span><span class="stack-tag">AutoCAD API</span><span class="stack-tag">Windows Service</span><span class="stack-tag">SQL Server</span>
+        </div>
+      </div>
+      <div class="architecture-card" style="grid-column: 1 / -1;">
+        <div class="architecture-name">FLCAD Serverless Workflow</div>
+        <div class="architecture-desc">Designed an event-driven architecture using AWS serverless services.
+          The system processes elevator design cases through distributed workflow stages.
+          Each stage runs independently using Lambda and communicates through SQS.</div>
+        <div class="architecture-stack">
+          <span class="stack-tag">AWS Lambda</span><span class="stack-tag">API Gateway</span><span class="stack-tag">Step Functions</span><span class="stack-tag">SQS</span><span class="stack-tag">X-Ray</span><span class="stack-tag">CloudWatch</span><span class="stack-tag">IAM</span><span class="stack-tag">S3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="architecture-flow">
+
+      <h3 class="flow-title">AutoCAD Processing Workflow</h3>
+
+      <div class="flow-diagram" id="flowDiagram">
+
+        <div class="flow-node">
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
+        <span>Client</span>
+        </div>
+
+        <div class="flow-line"></div>
+
+        <div class="flow-node">
+        <img src="https://img.icons8.com/color/48/api-settings.png">
+        <span>API Gateway</span>
+        </div>
+
+        <div class="flow-line"></div>
+
+        <div class="flow-node">
+        <img src="https://img.icons8.com/color/48/lambda.png">
+        <span>Lambda</span>
+        </div>
+
+        <div class="flow-line"></div>
+
+        <div class="flow-node">
+        <img src="https://img.icons8.com/color/48/queue.png">
+        <span>SQS</span>
+        </div>
+
+        <div class="flow-line"></div>
+
+        <div class="flow-node">
+        <img src="https://img.icons8.com/color/48/process.png">
+        <span>Step Functions</span>
+        </div>
+
+        <div class="flow-line"></div>
+
+        <div class="flow-node">
+        <img src="https://img.icons8.com/color/48/server.png">
+        <span>EC2 AutoCAD Worker</span>
+        </div>
+
+        <div class="flow-line"></div>
+
+        <div class="flow-node">
+        <img src="https://img.icons8.com/color/48/database.png">
+        <span>S3 Storage</span>
+        </div>
+
+        <div class="flow-line"></div>
+
+        <div class="flow-node">
+        <img src="https://img.icons8.com/color/48/lambda.png">
+        <span>Lambda Notify</span>
+        </div>
+
+        <div class="flow-line"></div>
+
+        <div class="flow-node">
+        <img src="https://img.icons8.com/color/48/email.png">
+        <span>Email / Download</span>
+        </div>
+
+        <div class="flow-dot" id="flowDot"></div>
+
+      </div>
+
+      <button class="run-flow-btn" onclick="runWorkflow()">
+      ▶ Run Workflow
+      </button>
+
+    </div>
+
+
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="section-label" style="justify-content:center">What's Next</div>
+  <h2 class="contact-title">Let's Build<br/><span>Something</span></h2>
+  <p class="contact-sub">Open to Backend, Full Stack .NET, and Cloud/AWS roles. Remote &amp; hybrid preferred.</p>
+  <div class="contact-links">
+    <a href="mailto:rahullakkawar@gmail.com" class="contact-link"  target="_blank" rel="noopener noreferrer">
+    ✉ rahullakkawar@gmail.com
+    </a>
+    <a href="tel:+919665894369" class="contact-link" target="_blank" rel="noopener noreferrer">
+    📞 +91 96658 94369
+    </a>
+    <a href="https://wa.me/919665894369" class="contact-link" target="_blank" rel="noopener noreferrer">
+    💬 WhatsApp
+    </a>
+    <a href="https://www.linkedin.com/in/rahul-lakkawar"
+      class="contact-link"
+      target="_blank"
+      rel="noopener noreferrer">
+    in LinkedIn
+    </a>
+
+    <!-- <a href="https://github.com/rahullakkawargit"
+      class="contact-link"
+      target="_blank"
+      rel="noopener noreferrer">
+    ⬡ GitHub
+    </a> -->
+  </div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--dim);letter-spacing:0.1em;">
+    Nagpur, INDIA · AVAILABLE NOW<span class="blink">_</span>
+  </div>
+</section>
+
+<footer>
+  <span>Rahul Lakkawar © 2026</span>
+  <span>FULL STACK · BACKEND · CLOUD</span>
+  <span>Nagpur, INDIA</span>
+</footer>
+
+<script>
+// Custom cursor
+const ring = document.getElementById('cursorRing');
+const dot = document.getElementById('cursorDot');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    ring.style.width = '56px'; ring.style.height = '56px';
+  });
+  el.addEventListener('mouseleave', () => {
+    ring.style.width = '36px'; ring.style.height = '36px';
+  });
+});
+
+const toggle = document.getElementById("menuToggle");
+const navLinks = document.querySelector(".nav-links");
+
+toggle.addEventListener("click", () => {
+  navLinks.classList.toggle("active");
+});
+
+
+// Progress bar
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.body.scrollHeight - window.innerHeight;
+  document.getElementById('progress').style.width = (scrolled / total * 100) + '%';
+  document.getElementById('navbar').classList.toggle('scrolled', scrolled > 60);
+});
+
+// Counter animation
+function countUp(el, target, suffix = '') {
+  let start = 0;
+  const step = target / 40;
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) { el.textContent = target + suffix; clearInterval(timer); }
+    else el.textContent = Math.floor(start) + suffix;
+  }, 40);
+}
+setTimeout(() => {
+  countUp(document.getElementById('yearsCount'), 4, '+');
+  countUp(document.getElementById('appsCount'), 10, '+');
+  //countUp(document.getElementById('countriesCount'), 20, '+');
+}, 800);
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.timeline-item, .skill-card, .achievement-card, .project-card, .architecture-card, .architecture-flow').forEach(el => {
+  observer.observe(el);
+});
+
+// Stagger skill cards
+document.querySelectorAll('.skill-card').forEach((el, i) => {
+  el.style.transitionDelay = (i * 0.08) + 's';
+});
+
+
+function runWorkflow(){
+
+  const btn = document.querySelector(".run-flow-btn");
+  btn.disabled = true;
+
+  const workflow = document.getElementById("flowDiagram");
+  const yOffset = -250; // adjust how much higher you want
+  const y = workflow.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+  window.scrollTo({
+    top: y,
+    behavior: "smooth"
+  });
+
+  setTimeout(startWorkflowAnimation(btn), 500);
+}
+
+
+function startWorkflowAnimation(btn){
+
+  const dot = document.getElementById("flowDot");
+  const nodes = document.querySelectorAll(".flow-node");
+  const container = document.getElementById("flowDiagram");
+
+  dot.style.opacity = 1;
+
+  let index = 0;
+
+  function move(){
+
+    if(index >= nodes.length){
+      dot.style.opacity = 0;
+      btn.disabled = false; // enable again when finished
+      return;
+    }
+
+    const node = nodes[index];
+
+    const nodeRect = node.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+
+    const x = nodeRect.left - containerRect.left + nodeRect.width/2;
+    const y = nodeRect.top - containerRect.top + nodeRect.height/2;
+
+    dot.style.left = x + "px";
+    dot.style.top = y + "px";
+
+    node.classList.add("active");
+
+    // ⭐ scroll with slight upward offset
+    const yOffset = -250;
+    const scrollY = node.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({
+      top: scrollY,
+      behavior:"smooth"
+    });
+
+    setTimeout(()=>{
+      node.classList.remove("active");
+      index++;
+      move();
+    },1100);
+
+  }
+
+  move();
+}
+
+const architectureSection = document.querySelector("#architecture");
+let workflowPlayed = false;
+
+const architectureObserver = new IntersectionObserver((entries) => {
+
+  entries.forEach(entry => {
+
+    if(entry.isIntersecting && !workflowPlayed){
+
+      workflowPlayed = true;
+
+      setTimeout(()=>{
+        runWorkflow();
+      },800);
+
+    }
+
+  });
+
+}, { threshold: 0.4 });
+
+architectureObserver.observe(architectureSection);
+
+  
+
+
+
+</script>
+</body>
+</html>
