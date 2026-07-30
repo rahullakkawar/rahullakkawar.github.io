@@ -1257,7 +1257,7 @@
     <div class="stats-strip" aria-label="Professional highlights">
       <div class="stat"><div class="stat-value" data-count="4" data-suffix="+">0</div><div class="stat-label">Years of experience</div></div>
       <div class="stat"><div class="stat-value" data-count="10" data-suffix="+">0</div><div class="stat-label">Enterprise applications</div></div>
-      <div class="stat"><div class="stat-value">5K–10K</div><div class="stat-label">Daily layout requests supported</div></div>
+      <div class="stat"><div class="stat-value">2K–5K</div><div class="stat-label">Daily layout requests supported</div></div>
       <div class="stat"><div class="stat-value">1</div><div class="stat-label">Major AWS transformation led</div></div>
     </div>
 
@@ -1416,7 +1416,7 @@
             <div class="project-eyebrow">KONE Global · Primary cloud transformation</div>
             <h3 class="project-title">FLCAD AWS Cloud Migration</h3>
             <p class="project-copy">Served as architecture and technical lead for migrating the global FLCAD platform from on-premises infrastructure to AWS. Led and contributed to event-driven workflow design, backend services, integration, testing, production deployment, monitoring and post-go-live support.</p>
-            <div class="project-metric">Supports approximately 5,000–10,000 elevator-layout requests per day across six application servers</div>
+            <div class="project-metric">Supports approximately 2,000–5,000 elevator-layout requests per day across six application servers</div>
             <div class="project-stack"><span class="tag">AWS Lambda</span><span class="tag">Step Functions</span><span class="tag">Amazon SQS</span><span class="tag">Amazon S3</span><span class="tag">API Gateway</span><span class="tag">EC2</span><span class="tag">CloudWatch</span><span class="tag">X-Ray</span><span class="tag">IAM</span><span class="tag">C#</span><span class="tag">.NET</span></div>
           </article>
 
@@ -1470,7 +1470,7 @@
       <div class="section-inner">
         <div class="section-kicker">Architecture thinking</div>
         <h2 class="section-heading">Event-driven orchestration with hybrid processing.</h2>
-        <p class="section-intro">A public-safe representation of the architectural principles used across cloud-based engineering workflows.</p>
+        <p class="section-intro">Representation of the architectural principles used across cloud-based engineering workflows.</p>
 
         <div class="architecture-wrap reveal">
           <div class="architecture-top">
@@ -1483,25 +1483,29 @@
           </div>
 
           <div class="workflow" id="workflow" aria-label="Representative cloud workflow">
-            <div class="flow-node"><span class="node-icon">REQ</span><strong>Client Request</strong></div>
-            <div class="flow-arrow" aria-hidden="true">→</div>
-            <div class="flow-node"><span class="node-icon">API</span><strong>API Gateway</strong></div>
-            <div class="flow-arrow" aria-hidden="true">→</div>
-            <div class="flow-node"><span class="node-icon">λ</span><strong>Lambda</strong></div>
-            <div class="flow-arrow" aria-hidden="true">→</div>
-            <div class="flow-node"><span class="node-icon">SQS</span><strong>Message Queue</strong></div>
-            <div class="flow-arrow" aria-hidden="true">→</div>
-            <div class="flow-node"><span class="node-icon">SFN</span><strong>Step Functions</strong></div>
-            <div class="flow-arrow" aria-hidden="true">→</div>
-            <div class="flow-node"><span class="node-icon">EC2</span><strong>AutoCAD Worker</strong></div>
-            <div class="flow-arrow" aria-hidden="true">→</div>
-            <div class="flow-node"><span class="node-icon">S3</span><strong>Object Storage</strong></div>
-            <div class="flow-arrow" aria-hidden="true">→</div>
-            <div class="flow-node"><span class="node-icon">OUT</span><strong>Notification &amp; Delivery</strong></div>
-          </div>
+    <div class="flow-node"><span class="node-icon">REQ</span><strong>Client Request</strong></div>
+    <div class="flow-arrow" aria-hidden="true">→</div>
+    <div class="flow-node"><span class="node-icon">API</span><strong>Input API Gateway</strong></div>
+    <div class="flow-arrow" aria-hidden="true">→</div>
+    <div class="flow-node"><span class="node-icon">SQS</span><strong>Input Queue</strong></div>
+    <div class="flow-arrow" aria-hidden="true">→</div>
+    <div class="flow-node"><span class="node-icon">λ</span><strong>Retrieve Files Lambda</strong></div>
+    <div class="flow-arrow" aria-hidden="true">→</div>
+    <div class="flow-node"><span class="node-icon">SFN</span><strong>File Validation Step Function</strong></div>
+    <div class="flow-arrow" aria-hidden="true">→</div>
+    <div class="flow-node"><span class="node-icon">RDS</span><strong>MSSQL</strong></div>
+    <div class="flow-arrow" aria-hidden="true">→</div>
+    <div class="flow-node"><span class="node-icon">EC2</span><strong>AutoCAD Worker</strong></div>
+    <div class="flow-arrow" aria-hidden="true">→</div>
+    <div class="flow-node"><span class="node-icon">S3</span><strong>Output Object Storage</strong></div>
+    <div class="flow-arrow" aria-hidden="true">→</div>
+    <div class="flow-node"><span class="node-icon">λ</span><strong>MailSend Lambda</strong></div>
+    <div class="flow-arrow" aria-hidden="true">→</div>
+    <div class="flow-node"><span class="node-icon">OUT</span><strong>Notification &amp; Delivery</strong></div>
+</div>
 
           <div class="workflow-actions">
-            <span class="workflow-status" id="workflowStatus">Ready — workflow runs only when requested.</span>
+            <span class="workflow-status" id="workflowStatus"></span>
           </div>
         </div>
       </div>
